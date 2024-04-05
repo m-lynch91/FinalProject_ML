@@ -10,6 +10,8 @@ import {
 } from "react-native";
 
 import CustomHeaderButton from "../components/CustomHeaderButton";
+import CustomModalView from "../components/CustomModalView";
+
 import note from "../assets/sticky-note.png";
 import add from "../assets/add.png";
 
@@ -28,7 +30,7 @@ const NoteScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const addOnPressHandler = () => {
-    alert("Add button pressed");
+    setModalVisible(true);
   };
 
   return (
@@ -38,6 +40,12 @@ const NoteScreen = ({ navigation }) => {
         <TouchableOpacity onPress={addOnPressHandler}>
           <Image source={add} />
         </TouchableOpacity>
+        {modalVisible ? (
+          <CustomModalView
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
+        ) : null}
       </View>
     </View>
   );

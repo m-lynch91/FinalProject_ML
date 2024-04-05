@@ -56,43 +56,8 @@ const RegisterScreen = ({ navigation }) => {
     });
   };
 
-  const saveDataWithFirebase = async () => {
-    const userId = auth.currentUser.uid;
-
-    // SAVE DATA TO REALTIME DB
-    const dbRef = ref(db, "users/" + userId);
-    await set(dbRef, { text: databaseData });
-
-    // SAVE DATA TO FIRESTORE
-    const firestoreDoc = doc(firestore, "users", userId);
-    await setDoc(firestoreDoc, { text: databaseData }, { merge: true });
-  };
-
-  const retrieveDataFromFirebase = async () => {
-    const userId = auth.currentUser.uid;
-
-    // LOAD DATA FROM FIRESTORE
-    const firestoreDoc = doc(firestore, "users", userId);
-    const docSnap = await getDoc(firestoreDoc);
-    if (docSnap.exists()) {
-      setDatabaseData(docSnap.data().text);
-    } else {
-      console.log("No such document!");
-    }
-
-    // LOAD DATA FROM REALTIME DATABASE
-    // const dbRef = ref(db, 'users/' + userId);
-    // const snapshot = await get(dbRef);
-    // if (snapshot.exists()) {
-    //   setDatabaseData(snapshot.val().text);
-    // } else {
-    //   console.log("No such document in Realtime Database!");
-    // }
-  };
-
   return (
     <ScrollView style={styles.container}>
-      {/* {!loggedIn ? ( */}
       <View style={styles.authContainer}>
         <Text style={styles.title}>{isRegistering ? "Register" : "Login"}</Text>
         <TextInput
@@ -113,7 +78,7 @@ const RegisterScreen = ({ navigation }) => {
           secureTextEntry
           placeholder="Password"
         />
-        <View style={{ marginVertical: 10 }}></View>
+
         <Button
           title={isRegistering ? "Register" : "Login"}
           onPress={handleAuth}
@@ -126,27 +91,6 @@ const RegisterScreen = ({ navigation }) => {
         />
       </View>
     </ScrollView>
-    // ) : (
-    //   <View style={styles.dataContainer}>
-    //     <TextInput
-    //       style={styles.textArea}
-    //       multiline
-    //       numberOfLines={4}
-    //       onChangeText={setDatabaseData}
-    //       value={databaseData}
-    //       placeholder="Enter some text"
-    //     />
-    //     <View style={styles.buttonContainer}>
-    //       <Button title="Save Data" onPress={saveDataWithFirebase} />
-    //       <Button title="Load Data" onPress={retrieveDataFromFirebase} />
-    //     </View>
-    //     <Button
-    //       title="Sign Out"
-    //       onPress={signoutWithFirebase}
-    //       color="#d9534f"
-    //     />
-    //   </View>
-    // )}
   );
 };
 

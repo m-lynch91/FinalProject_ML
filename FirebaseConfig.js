@@ -3,7 +3,6 @@ import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDwEQfrBw3tUCFNx0Csp-yidYwf8Qc7htQ",
   authDomain: "remembrall-f6528.firebaseapp.com",
