@@ -10,38 +10,47 @@ import {
 
 const CustomModalView = ({ modalVisible, setModalVisible }) => {
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.title}>Add Note</Text>
-            <TextInput
-              style={styles.modalTitle}
-              placeholder="Note Title"
-            ></TextInput>
-            <TextInput
-              style={styles.modalContent}
-              placeholder="Note Content"
-            ></TextInput>
-            <TouchableOpacity
-              style={styles.openButton}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <Text style={styles.textStyle}>Close</Text>
-            </TouchableOpacity>
-          </View>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <View style={styles.modalView}>
+        <Text style={styles.title}>Add Note</Text>
+        <TextInput
+          style={styles.modalTitle}
+          placeholder="Note Title"
+        ></TextInput>
+        <View style={{ marginVertical: 10 }} />
+        <TextInput
+          style={styles.modalContent}
+          placeholder="Note Content"
+          multiline={true}
+        ></TextInput>
+        <View style={{ marginVertical: 10 }} />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.close}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <Text style={styles.textStyle}>Close</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.save}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <Text style={styles.textStyle}>Save</Text>
+          </TouchableOpacity>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
 
@@ -50,10 +59,11 @@ export default CustomModalView;
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   modalView: {
+    margin: 20,
+    padding: 35,
+    marginTop: 200,
     backgroundColor: "white",
     borderRadius: 30,
     alignItems: "stretch",
@@ -65,7 +75,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    padding: 20,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   button: {
     borderRadius: 20,
@@ -78,18 +91,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   modalTitle: {
-    margin: 10,
-    paddingHorizontal: 50,
+    padding: 10,
     borderColor: "black",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
   },
   modalContent: {
-    margin: 10,
-    padding: 50,
+    padding: 10,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 20,
+    height: 300,
+    width: "100%",
   },
   title: {
     fontSize: 20,

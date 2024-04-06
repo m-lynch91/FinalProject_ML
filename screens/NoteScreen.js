@@ -14,6 +14,7 @@ import CustomModalView from "../components/CustomModalView";
 
 import note from "../assets/sticky-note.png";
 import add from "../assets/add.png";
+import audio from "../assets/mic.png";
 
 const NoteScreen = ({ navigation }) => {
   React.useLayoutEffect(() => {
@@ -46,6 +47,19 @@ const NoteScreen = ({ navigation }) => {
             setModalVisible={setModalVisible}
           />
         ) : null}
+        <Text style={{ paddingLeft: 10, fontSize: 20 }}>Add Text Note</Text>
+      </View>
+      <View style={styles.addContainer}>
+        <TouchableOpacity onPress={addOnPressHandler}>
+          <Image source={audio} />
+        </TouchableOpacity>
+        {modalVisible ? (
+          <CustomModalView
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
+        ) : null}
+        <Text style={{ paddingLeft: 10, fontSize: 20 }}>Add Audio Note</Text>
       </View>
     </View>
   );
@@ -65,6 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignSelf: "flex-start",
+    alignItems: "center",
     marginTop: 40,
     paddingLeft: 35,
   },
