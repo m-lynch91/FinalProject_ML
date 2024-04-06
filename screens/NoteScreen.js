@@ -10,7 +10,8 @@ import {
 } from "react-native";
 
 import CustomHeaderButton from "../components/CustomHeaderButton";
-import CustomModalView from "../components/CustomModalView";
+import CustomNoteModalView from "../components/CustomNoteModalView";
+import CustomAudioModalView from "../components/CustomAudioModalView";
 
 import note from "../assets/sticky-note.png";
 import add from "../assets/add.png";
@@ -28,35 +29,40 @@ const NoteScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [textModalVisible, setTextModalVisible] = useState(false);
+  const [audioModalVisible, setAudioModalVisible] = useState(false);
 
-  const addOnPressHandler = () => {
-    setModalVisible(true);
+  const addTextOnPressHandler = () => {
+    setTextModalVisible(true);
+  };
+
+  const addAudioOnPressHandler = () => {
+    setAudioModalVisible(true);
   };
 
   return (
     <View style={styles.container}>
       <Image source={note} />
       <View style={styles.addContainer}>
-        <TouchableOpacity onPress={addOnPressHandler}>
+        <TouchableOpacity onPress={addTextOnPressHandler}>
           <Image source={add} />
         </TouchableOpacity>
-        {modalVisible ? (
-          <CustomModalView
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
+        {textModalVisible ? (
+          <CustomNoteModalView
+            modalVisible={textModalVisible}
+            setModalVisible={setTextModalVisible}
           />
         ) : null}
         <Text style={{ paddingLeft: 10, fontSize: 20 }}>Add Text Note</Text>
       </View>
       <View style={styles.addContainer}>
-        <TouchableOpacity onPress={addOnPressHandler}>
+        <TouchableOpacity onPress={addAudioOnPressHandler}>
           <Image source={audio} />
         </TouchableOpacity>
-        {modalVisible ? (
-          <CustomModalView
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
+        {audioModalVisible ? (
+          <CustomAudioModalView
+            modalVisible={audioModalVisible}
+            setModalVisible={setAudioModalVisible}
           />
         ) : null}
         <Text style={{ paddingLeft: 10, fontSize: 20 }}>Add Audio Note</Text>

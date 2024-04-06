@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 
-const CustomModalView = ({ modalVisible, setModalVisible }) => {
+const CustomNoteModalView = ({ modalVisible, setModalVisible }) => {
   return (
     <Modal
       animationType="slide"
@@ -54,7 +54,7 @@ const CustomModalView = ({ modalVisible, setModalVisible }) => {
   );
 };
 
-export default CustomModalView;
+export default CustomNoteModalView;
 
 const styles = StyleSheet.create({
   centeredView: {
