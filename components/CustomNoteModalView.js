@@ -9,6 +9,17 @@ import {
 } from "react-native";
 
 const CustomNoteModalView = ({ modalVisible, setModalVisible }) => {
+  const [enteredContactName, setEnteredContactName] = useState();
+  const [enteredContactInfo, setEnteredContactInfo] = useState();
+
+  const contactInputNameHelper = (enteredContactName) => {
+    setEnteredContactName(enteredContactName);
+  };
+
+  const contactInputInfoHelper = (enteredContactInfo) => {
+    setEnteredContactInfo(enteredContactInfo);
+  };
+
   return (
     <Modal
       animationType="slide"
