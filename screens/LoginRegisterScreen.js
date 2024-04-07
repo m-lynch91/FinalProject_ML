@@ -1,3 +1,7 @@
+/**
+ * Encapsulates the login and register screens.
+ */
+
 import React, { useState } from "react";
 import {
   View,
@@ -8,14 +12,11 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { db, firestore, auth } from "../FirebaseConfig";
+import { auth } from "../FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
 } from "firebase/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
-import { ref, get, set } from "firebase/database";
 
 const RegisterScreen = ({ navigation }) => {
   const [isRegistering, setIsRegistering] = useState(true);

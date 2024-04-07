@@ -1,3 +1,7 @@
+/**
+ * Encapsulates the modal view for adding a new text note.
+ */
+
 import React, { useState } from "react";
 import {
   Modal,

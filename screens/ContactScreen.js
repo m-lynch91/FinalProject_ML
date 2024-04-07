@@ -1,20 +1,15 @@
+/**
+ * Encapsulates the ContactScreen
+ */
+
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, Text, Image, FlatList } from "react-native";
 import * as Contacts from "expo-contacts";
 
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import ContactList from "../components/ContactList";
 
-import add from "../assets/add32.png";
 import contact from "../assets/contact128.png";
-import { set } from "firebase/database";
 
 const ContactScreen = ({ navigation }) => {
   React.useLayoutEffect(() => {
@@ -47,15 +42,6 @@ const ContactScreen = ({ navigation }) => {
   }, []);
 
   const [contactList, setContactList] = useState([]);
-  const [isAddMode, setIsAddMode] = useState(false);
-
-  const addContactHandler = (contact) => {
-    setContactList((contactList) => [
-      ...contactList,
-      { key: Math.random().toString(), value: contact },
-    ]);
-    setIsAddMode(false);
-  };
 
   const removeContactHandler = (contactId) => {
     setContactList((contactList) => {

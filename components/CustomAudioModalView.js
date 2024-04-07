@@ -1,3 +1,7 @@
+/**
+ * Encapsulates the audio recording and playback functionality in a modal view.
+ */
+
 import React, { useState, useRef } from "react";
 import {
   Modal,

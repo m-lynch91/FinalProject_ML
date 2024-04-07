@@ -1,3 +1,7 @@
+/**
+ * Encapsulates the list of emails for a contact. Each email is rendered as a separate TouchableOpacity
+ */
+
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import * as Clipboard from "expo-clipboard";

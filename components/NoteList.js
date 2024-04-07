@@ -1,3 +1,7 @@
+/**
+ * Encapsulates the note list component.
+ */
+
 import React from "react";
 import {
   View,

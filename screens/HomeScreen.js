@@ -1,3 +1,7 @@
+/**
+ * Encapsulates the HomeScreen component
+ */
+
 import React, { useState } from "react";
 import { View, StyleSheet, Image, Button, Alert } from "react-native";
 import { auth } from "../FirebaseConfig";
