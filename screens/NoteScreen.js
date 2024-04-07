@@ -22,6 +22,16 @@ const NoteScreen = ({ navigation }) => {
           }
         />
       ),
+      headerLeft: () => (
+        <CustomHeaderButton
+          title="Home"
+          onPress={() =>
+            navigation.navigate("HomeScreen", {
+              screenTitle: "HomeScreen",
+            })
+          }
+        />
+      ),
     });
   }, [navigation]);
 

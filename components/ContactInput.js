@@ -25,9 +25,15 @@ const ContactInput = (props) => {
   };
 
   const addContactHandler = () => {
-    props.onAddItem(enteredContactName + ": " + enteredContactInfo);
-    setEnteredContactName("");
-    setEnteredContactInfo("");
+    console.log(enteredContactName);
+    console.log(enteredContactInfo);
+    if (enteredContactName === "" || enteredContactInfo === "") {
+      alert("Please enter a contact name and email address.");
+    } else {
+      props.onAddItem(enteredContactName + ": " + enteredContactInfo);
+      setEnteredContactName("");
+      setEnteredContactInfo("");
+    }
   };
 
   return (

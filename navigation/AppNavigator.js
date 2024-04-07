@@ -2,8 +2,9 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import NoteScreen from "../screens/NoteScreen";
 import LoginRegisterScreen from "../screens/LoginRegisterScreen";
+import HomeScreen from "../screens/HomeScreen";
+import NoteScreen from "../screens/NoteScreen";
 import ContactScreen from "../screens/ContactScreen";
 
 const Stack = createNativeStackNavigator();
@@ -13,7 +14,7 @@ function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator
         // initialRouteName="RegisterScreen"
-        initialRouteName="NoteScreen"
+        initialRouteName="HomeScreen"
         screenOptions={{
           headerTintColor: "white",
           headerStyle: { backgroundColor: "#ffffff" },
@@ -26,6 +27,12 @@ function AppNavigator() {
           component={LoginRegisterScreen}
           options={{ title: "Remembrall" }}
         />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ title: "Home" }}
+        />
+
         <Stack.Screen
           name="NoteScreen"
           component={NoteScreen}

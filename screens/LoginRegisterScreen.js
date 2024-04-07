@@ -40,20 +40,13 @@ const RegisterScreen = ({ navigation }) => {
           setLoggedIn(true);
           setEmail("");
           setPassword("");
-          navigation.navigate("NoteScreen");
+          navigation.navigate("HomeScreen");
         }
       })
       .catch((error) => {
         Alert.alert(error.message);
         console.log(error);
       });
-  };
-
-  const signoutWithFirebase = () => {
-    signOut(auth).then(() => {
-      Alert.alert("User was logged out!");
-      setLoggedIn(false);
-    });
   };
 
   return (
