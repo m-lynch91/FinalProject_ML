@@ -1,18 +1,30 @@
-/**
- * Encapsulates a contact list modal so that user can view and interact with a contacts list.
- */
-
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import * as Clipboard from "expo-clipboard";
 
 const ContactList = (props) => {
+  const { emails } = props.item;
+  const [copiedText, setCopiedText] = useState("");
+
+  if (!emails || emails.length === 0) {
+    // If no emails are found, return null to not render anything for this contact
+    return null;
+  }
+
   return (
     <TouchableOpacity
       activeOpacity={0.75}
-      onPress={props.onDelete.bind(this, props.id)} // pass id of this item to onDelete method
+      onPress={props.onDelete.bind(this, props.id)}
     >
       <View style={styles.contact}>
-        <Text>{props.item}</Text>
+        {emails.map((emailData, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => console.log(emailData.email)}
+          >
+            <Text>{emailData.email}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </TouchableOpacity>
   );

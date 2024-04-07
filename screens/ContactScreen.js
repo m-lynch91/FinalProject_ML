@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
+import * as Contacts from "expo-contacts";
 
 import CustomHeaderButton from "../components/CustomHeaderButton";
-import ContactInput from "../components/ContactInput";
 import ContactList from "../components/ContactList";
 
 import add from "../assets/add32.png";
 import contact from "../assets/contact128.png";
+import { set } from "firebase/database";
 
 const ContactScreen = ({ navigation }) => {
   React.useLayoutEffect(() => {
@@ -30,6 +31,25 @@ const ContactScreen = ({ navigation }) => {
       ),
     });
   }, [navigation]);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Contacts.requestPermissionsAsync();
+      if (status === "granted") {
+        const { data } = await Contacts.getContactsAsync({
+          fields: [Contacts.Fields.Emails],
+        });
+
+        // add contacts to list
+        setContactList(data);
+
+        // if (data.length > 0) {
+        //   const contact = data[0];
+        //   console.log(contact);
+        // }
+      }
+    })();
+  }, []);
 
   const [contactList, setContactList] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
@@ -51,17 +71,7 @@ const ContactScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image source={contact} />
-      <View style={styles.addContainer}>
-        <TouchableOpacity onPress={() => setIsAddMode(true)}>
-          <Image source={add} />
-        </TouchableOpacity>
-        <ContactInput
-          visible={isAddMode}
-          onCancel={() => setIsAddMode(false)}
-          onAddItem={addContactHandler}
-        />
-        <Text style={{ paddingLeft: 10, fontSize: 20 }}>Add Contact</Text>
-      </View>
+      <View style={styles.addContainer}></View>
       <View style={styles.listContainer}>
         <FlatList
           data={contactList}
@@ -69,7 +79,7 @@ const ContactScreen = ({ navigation }) => {
             <ContactList
               id={contactData.item.key}
               onDelete={removeContactHandler}
-              item={contactData.item.value}
+              item={contactData.item}
             />
           )}
         />

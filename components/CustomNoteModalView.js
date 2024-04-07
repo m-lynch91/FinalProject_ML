@@ -7,26 +7,47 @@ import {
   View,
   TextInput,
 } from "react-native";
+import { db, firestore, auth } from "../FirebaseConfig";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { ref, get, set } from "firebase/database";
 
-const CustomNoteModalView = ({ modalVisible, setModalVisible }) => {
-  const [enteredContactName, setEnteredContactName] = useState();
-  const [enteredContactInfo, setEnteredContactInfo] = useState();
+// const CustomNoteModalView = ({ modalVisible, setModalVisible }) => {
+const CustomNoteModalView = (props) => {
+  const [enteredNoteTitle, setEnteredNoteTitle] = useState();
+  const [enteredNoteBody, setEnteredNoteBody] = useState();
 
-  const contactInputNameHelper = (enteredContactName) => {
-    setEnteredContactName(enteredContactName);
+  const contactInputTitleHelper = (enteredNoteTitle) => {
+    setEnteredNoteTitle(enteredNoteTitle);
   };
 
-  const contactInputInfoHelper = (enteredContactInfo) => {
-    setEnteredContactInfo(enteredContactInfo);
+  const contactInputBodyHelper = (enteredNoteBody) => {
+    setEnteredNoteBody(enteredNoteBody);
+  };
+
+  const saveNoteHandler = async () => {
+    // save data to realtime db
+    const userId = auth.currentUser.uid;
+
+    const firestoreDoc = doc(firestore, "textNotes", userId);
+    await setDoc(
+      firestoreDoc,
+      { title: enteredNoteTitle, body: enteredNoteBody },
+      { merge: true }
+    );
+
+    alert("Saving note to database!");
+
+    setEnteredNoteTitle("");
+    setEnteredNoteBody("");
   };
 
   return (
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalVisible}
+      visible={props.modalVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        props.setModalVisible(!props.modalVisible);
       }}
     >
       <View style={styles.modalView}>
@@ -34,19 +55,23 @@ const CustomNoteModalView = ({ modalVisible, setModalVisible }) => {
         <TextInput
           style={styles.modalTitle}
           placeholder="Note Title"
+          onChangeText={contactInputTitleHelper}
+          value={enteredNoteTitle}
         ></TextInput>
         <View style={{ marginVertical: 10 }} />
         <TextInput
           style={styles.modalContent}
           placeholder="Note Content"
           multiline={true}
+          onChangeText={contactInputBodyHelper}
+          value={enteredNoteBody}
         ></TextInput>
         <View style={{ marginVertical: 10 }} />
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.close}
             onPress={() => {
-              setModalVisible(!modalVisible);
+              props.setModalVisible(!props.modalVisible);
             }}
           >
             <Text style={styles.textStyle}>Close</Text>
@@ -54,7 +79,9 @@ const CustomNoteModalView = ({ modalVisible, setModalVisible }) => {
           <TouchableOpacity
             style={styles.save}
             onPress={() => {
-              setModalVisible(!modalVisible);
+              saveNoteHandler();
+              props.setModalVisible(!props.modalVisible);
+              props.retrieveDataFromFirebase();
             }}
           >
             <Text style={styles.textStyle}>Save</Text>

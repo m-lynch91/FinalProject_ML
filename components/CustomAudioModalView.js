@@ -6,21 +6,25 @@ import {
   TouchableOpacity,
   View,
   Button,
+  TextInput,
 } from "react-native";
 
 import { Audio } from "expo-av";
-import { set } from "firebase/database";
+import { db, firestore, auth } from "../FirebaseConfig";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { ref, get, set } from "firebase/database";
 
 const started = "Started";
 const stopped = "Stopped";
 const paused = "Paused";
 const restarted = "Restarted";
 
-const CustomAudioModalView = ({ modalVisible, setModalVisible }) => {
+const CustomAudioModalView = (props) => {
   // recording state
   const recording = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("");
   const [recordingExists, setRecordingExists] = useState(false);
+  const [enteredNoteTitle, setEnteredNoteTitle] = useState();
 
   // playback state
   const soundObject = useRef(null);
@@ -189,18 +193,47 @@ const CustomAudioModalView = ({ modalVisible, setModalVisible }) => {
     console.log("Recording cleared!");
   };
 
+  const saveNoteHandler = async () => {
+    // save data to realtime db
+    const userId = auth.currentUser.uid;
+
+    const firestoreDoc = doc(firestore, "audioNotes", userId);
+
+    console.log(enteredNoteTitle);
+    console.log(recording.current.getURI());
+    await setDoc(
+      firestoreDoc,
+      { title: enteredNoteTitle, uri: recording.current.getURI() },
+      { merge: true }
+    );
+
+    alert("Saving note to database!");
+
+    setEnteredNoteTitle("");
+    clearRecordedAudio();
+  };
+
+  const contactInputTitleHelper = (enteredNoteTitle) => {
+    setEnteredNoteTitle(enteredNoteTitle);
+  };
+
   return (
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalVisible}
+      visible={props.modalVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        props.setModalVisible(!props.modalVisible);
       }}
     >
       <View style={styles.modalView}>
         <Text style={styles.title}>Record Note</Text>
-
+        <TextInput
+          style={styles.modalTitle}
+          placeholder="Note Title"
+          onChangeText={contactInputTitleHelper}
+          value={enteredNoteTitle}
+        ></TextInput>
         {!recordingExists ? (
           <View>
             <View>
@@ -255,7 +288,7 @@ const CustomAudioModalView = ({ modalVisible, setModalVisible }) => {
           <TouchableOpacity
             style={styles.close}
             onPress={() => {
-              setModalVisible(!modalVisible);
+              props.setModalVisible(!props.modalVisible);
             }}
           >
             <Text style={styles.textStyle}>Close</Text>
@@ -263,7 +296,9 @@ const CustomAudioModalView = ({ modalVisible, setModalVisible }) => {
           <TouchableOpacity
             style={styles.save}
             onPress={() => {
-              setModalVisible(!modalVisible);
+              saveNoteHandler();
+              props.setModalVisible(!props.modalVisible);
+              props.retrieveDataFromFirebase();
             }}
           >
             <Text style={styles.textStyle}>Save</Text>
@@ -328,5 +363,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     backgroundColor: "pink",
+  },
+  modalTitle: {
+    padding: 10,
+    margin: 10,
+    marginHorizontal: 0,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 10,
   },
 });
