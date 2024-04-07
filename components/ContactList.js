@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import * as Clipboard from "expo-clipboard";
 
@@ -11,16 +11,17 @@ const ContactList = (props) => {
     return null;
   }
 
+  const copyToClipboard = async (email) => {
+    await Clipboard.setStringAsync(email);
+  };
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.75}
-      onPress={props.onDelete.bind(this, props.id)}
-    >
+    <TouchableOpacity activeOpacity={0.75}>
       <View style={styles.contact}>
         {emails.map((emailData, index) => (
           <TouchableOpacity
             key={index}
-            onPress={() => console.log(emailData.email)}
+            onPress={() => copyToClipboard(emailData.email)}
           >
             <Text>{emailData.email}</Text>
           </TouchableOpacity>
@@ -32,8 +33,8 @@ const ContactList = (props) => {
 
 const styles = StyleSheet.create({
   contact: {
-    padding: 10,
-    marginVertical: 2,
+    padding: 20,
+    marginVertical: 5,
     borderColor: "black",
     borderWidth: 1,
   },

@@ -10,6 +10,8 @@ import {
 import { db, firestore, auth } from "../FirebaseConfig";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import { ref, get, set } from "firebase/database";
+import * as Clipboard from "expo-clipboard";
+import * as MailComposer from "expo-mail-composer";
 
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import CustomNoteModalView from "../components/CustomNoteModalView";
@@ -51,6 +53,7 @@ const NoteScreen = ({ navigation }) => {
   const [textModalVisible, setTextModalVisible] = useState(false);
   const [audioModalVisible, setAudioModalVisible] = useState(false);
   const [noteList, setNoteList] = useState([]);
+  const [copiedText, setCopiedText] = useState("");
 
   const retrieveDataFromFirebase = async () => {
     const userId = auth.currentUser.uid;
@@ -94,6 +97,32 @@ const NoteScreen = ({ navigation }) => {
     });
   };
 
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getStringAsync();
+    setCopiedText(text);
+  };
+
+  const sendMessageWithEmail = async (title, body) => {
+    const isAvailable = await MailComposer.isAvailableAsync();
+
+    await fetchCopiedText();
+    const email = copiedText;
+
+    if (isAvailable) {
+      const options = {
+        recipients: ["micheal.j.lynch@gmail.com"],
+        subject: "Here's my note!",
+        body: `Title: ${title}\n\n${body}\n\n${email}`,
+      };
+
+      MailComposer.composeAsync(options).then((result) =>
+        console.log(result.status)
+      );
+    } else {
+      console.log("Email is not available on this device");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image source={note} />
@@ -131,6 +160,7 @@ const NoteScreen = ({ navigation }) => {
               id={noteData.item.key}
               item={noteData.item}
               onDelete={removeNoteHandler}
+              onEmail={sendMessageWithEmail}
             />
           )}
         />

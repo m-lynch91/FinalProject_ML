@@ -13,8 +13,7 @@ function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="RegisterScreen"
-        initialRouteName="HomeScreen"
+        initialRouteName="RegisterScreen"
         screenOptions={{
           headerTintColor: "white",
           headerStyle: { backgroundColor: "#ffffff" },

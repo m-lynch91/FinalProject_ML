@@ -42,11 +42,6 @@ const ContactScreen = ({ navigation }) => {
 
         // add contacts to list
         setContactList(data);
-
-        // if (data.length > 0) {
-        //   const contact = data[0];
-        //   console.log(contact);
-        // }
       }
     })();
   }, []);
@@ -71,7 +66,11 @@ const ContactScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image source={contact} />
-      <View style={styles.addContainer}></View>
+      <View style={styles.addContainer}>
+        <Text style={{ fontSize: 15 }}>
+          Press to copy contact email to clipboard!
+        </Text>
+      </View>
       <View style={styles.listContainer}>
         <FlatList
           data={contactList}
@@ -98,14 +97,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#ffe5b3",
   },
-  addContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignSelf: "flex-start",
-    alignItems: "center",
-    marginTop: 40,
-    paddingLeft: 35,
-  },
+
   listContainer: {
     flex: 1,
     paddingTop: 20,

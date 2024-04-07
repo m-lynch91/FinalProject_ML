@@ -6,17 +6,28 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 
 const NoteList = (props) => {
   return (
-    <TouchableOpacity activeOpacity={0.75}>
+    <TouchableOpacity
+      activeOpacity={0.75}
+      onPress={() => {
+        props.onEmail(props.item.title, props.item.body);
+      }}
+    >
       <View style={styles.item}>
         <ScrollView style={{ flex: 1 }}>
           <Text style={styles.text}>{props.item.title}</Text>
           <Text style={styles.text}>{props.item.body}</Text>
         </ScrollView>
-        <TouchableOpacity onPress={props.onDelete.bind(this, props.id)}>
+        <TouchableOpacity
+          activeOpacity={0.75}
+          onPress={() => {
+            props.onDelete.bind(this, props.id);
+          }}
+        >
           <Image
             source={require("../assets/remove32.png")}
             style={styles.image}
